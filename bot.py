@@ -2,7 +2,7 @@ import os
 import logging
 import google.generativeai as genai
 from telegram import Update
-from telegram.ext import Application, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,7 +37,8 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Send me a photo and I'll write your captions! 📸")
 
-app = Application.builder().token(TELEGRAM_TOKEN).build()
-app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
-app.add_handler(MessageHandler(filters.TEXT, handle_text))
-app.run_polling()
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+    app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
+    app.add_handler(MessageHandler(filters.TEXT, handle_text))
+    app.run_polling()
